@@ -60,10 +60,11 @@ class Viewer:
             win_size = glfw.get_window_size(self.win)
             view = self.trackball.view_matrix()
             projection = self.trackball.projection_matrix(win_size)
+            normatrix = (np.linalg.inv(view)).transpose()
 
             # draw our scene objects
             for drawable in self.drawables:
-                drawable.draw(projection, view, None)
+                drawable.draw(projection, view, normatrix)
 
             # flush render commands, and swap draw buffers
             glfw.swap_buffers(self.win)
@@ -108,8 +109,8 @@ def main():
     viewer = Viewer()
     # place instances of our basic objects
 
-    model = Circle("./gouraud.vert", "./gouraud.frag", 1, 2, [1, 0, 0]).setup()
-    model1 = Circle("./gouraud.vert", "./gouraud.frag", 1, 0, [0, 0, 1]).setup()
+    model = Circle("./phongex.vert", "./phongex.frag", 1, 2, [1, 0, 0], 1).setup()
+    model1 = Circle("./phongex.vert", "./phongex.frag", 1, 0, [0, 0, 1], 0).setup()
     viewer.add(model)
     viewer.add(model1)
 

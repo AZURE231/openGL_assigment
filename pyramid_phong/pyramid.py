@@ -37,7 +37,7 @@ class Cube(object):
         ], dtype=np.float32)
         self.indices = np.array(
             # YOUR CODE HERE to specify index data
-            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 13, 15, 17, 16]
         )
         normals = []
         for i in range(0, 16, 3):
