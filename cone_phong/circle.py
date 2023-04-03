@@ -24,6 +24,8 @@ class Circle(object):
 
         if facing:
             normals = []
+            normals.append(normal_of_face(self.vertices[0], self.vertices[2], self.vertices[1]))
+            normals.append(normal_of_face(self.vertices[0], self.vertices[2], self.vertices[1]))
             for i in range(1, len(self.vertices) - 1):
                 normals.append(normal_of_face(self.vertices[0], self.vertices[i+1], self.vertices[i]))
 

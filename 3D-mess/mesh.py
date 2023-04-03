@@ -13,10 +13,11 @@ class Mesh(object):
 
         #self.vertices = np.array(self.getUnitCircleVertices(radius, height), dtype=np.float32)
         self.graph = []
-        for i in range (0, 101):
-            for j in range (0, 101):
-                x = (i - 101/2) / (101/2)
-                y = (j - 101/2) / (101/2)
+        N = 101
+        for i in range (0, N):
+            for j in range (0, N):
+                x = (i - N/2) / (N/2)
+                y = (j - N/2) / (N/2)
                 t = math.hypot(x,y) * 4
                 z = (1 - t*t) * math.exp(t*t/-2)
                 self.graph.append(x)
@@ -25,7 +26,30 @@ class Mesh(object):
 
 
         self.vertices = np.array(self.graph, dtype=np.float32)
-        self.indices = np.array([x for x in range(0, len(self.vertices))])
+
+
+        indices = []
+        # for y in range(0, 101):
+        #     for x in range (0, 100):
+        #         indices.append(y * 101 + x)
+        #         indices.append(y * 101 + x + 1)
+        # for x in range(0, 101):
+        #     for y in range(0, 100):
+        #         indices.append(y * 101 + x)
+        #         indices.append((y+1)*100 + x)
+        for y in range(0, 100):
+            for x in range (0, 100):
+                indices.append(y * 101 + x)
+                indices.append(y * 101 + x + 1)
+                indices.append((y + 1) * 101 + x + 1)
+
+                indices.append(y * 101 + x)
+                indices.append((y + 1) * 101 + x + 1)
+                indices.append((y + 1) * 101 + x)
+
+
+
+        self.indices = np.array(indices)
 
         normals = np.random.normal(0, 3, (3, 3)).astype(np.float32)
         normals[:, 2] = np.abs(normals[:, 2])
@@ -88,7 +112,7 @@ class Mesh(object):
 
         self.vao.activate()
         for i in range(0, 101):
-            GL.glDrawElements(GL.GL_LINE_STRIP, i*101, GL.GL_UNSIGNED_INT, None)
+            GL.glDrawElements(GL.GL_TRIANGLES, self.indices.shape[0], GL.GL_UNSIGNED_INT, None)
 
     def key_handler(self, key):
 
