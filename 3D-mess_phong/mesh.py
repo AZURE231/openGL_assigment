@@ -58,7 +58,7 @@ class Mesh(object):
         print(len(self.indices))
 
         normals = []
-        for i in range(0, len(self.vertices)-3, 3):
+        for i in range(0, len(self.indices)-3, 3):
             normals.append(normal_of_face(self.vertices[self.indices[i]], self.vertices[self.indices[i+2]], self.vertices[self.indices[i+1]]))
             normals.append(normal_of_face(self.vertices[self.indices[i]], self.vertices[self.indices[i+2]], self.vertices[self.indices[i+1]]))
             normals.append(normal_of_face(self.vertices[self.indices[i]], self.vertices[self.indices[i+2]], self.vertices[self.indices[i+1]]))
