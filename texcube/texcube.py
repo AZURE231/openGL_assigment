@@ -163,7 +163,7 @@ class TexCube(object):
         self.vao.add_ebo(self.indices)
 
         # setup textures
-        self.uma.setup_texture("texture", "./image/texture_gura.jpg")
+        self.uma.setup_texture("texture", "./image/texture.jpeg")
 
         # Light
         I_light = np.array([

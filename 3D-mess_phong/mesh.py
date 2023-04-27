@@ -10,36 +10,33 @@ def normal_of_face(A, B, C):
     v1 = B - A
     v2 = C - A
     v = np.cross(v1, v2)
-    #n = v / np.linalg.norm(v)
-    return v
+    n = v / np.linalg.norm(v)
+    return n
 class Mesh(object):
     def __init__(self, vert_shader, frag_shader):
         #  a Cube Made of Two Triangle Strips Using Primitive Restart
 
         #self.vertices = np.array(self.getUnitCircleVertices(radius, height), dtype=np.float32)
         self.graph = []
+        normals = []
+        lol = []
         N = 101
-        for i in range (0, N):
-            for j in range (0, N):
+        for i in range(0, N):
+            for j in range(0, N):
                 x = (i - N/2) / (N/2)
                 y = (j - N/2) / (N/2)
                 t = math.hypot(x,y) * 4
                 z = (1 - t*t) * math.exp(t*t/-2)
                 self.graph.append([x, y, z])
+                normals.append(x)
+                normals.append(y)
+                normals.append(z)
 
         self.vertices = np.array(self.graph, dtype=np.float32)
 
         indices = []
-        # for y in range(0, 101):
-        #     for x in range (0, 100):
-        #         indices.append(y * 101 + x)
-        #         indices.append(y * 101 + x + 1)
-        # for x in range(0, 101):
-        #     for y in range(0, 100):
-        #         indices.append(y * 101 + x)
-        #         indices.append((y+1)*100 + x)
         for y in range(0, 100):
-            for x in range (0, 100):
+            for x in range(0, 100):
                 indices.append(y * 101 + x)
                 indices.append(y * 101 + x + 1)
                 indices.append((y + 1) * 101 + x + 1)
@@ -50,19 +47,19 @@ class Mesh(object):
 
 
         self.indices = np.array(indices)
-        for x in range(0, 10):
-            print(self.indices[x])
-        print(self.vertices[self.indices[0]])
-        print(self.vertices[self.indices[2]])
-        print(self.vertices[self.indices[1]])
-        print(len(self.indices))
+        # for x in range(0, 10):
+        #     print(self.indices[x])
+        # print(self.vertices[self.indices[0]])
+        # print(self.vertices[self.indices[2]])
+        # print(self.vertices[self.indices[1]])
+        # print(len(self.indices))
 
-        normals = []
-        for i in range(0, len(self.indices)-3, 3):
-            normals.append(normal_of_face(self.vertices[self.indices[i]], self.vertices[self.indices[i+2]], self.vertices[self.indices[i+1]]))
-            normals.append(normal_of_face(self.vertices[self.indices[i]], self.vertices[self.indices[i+2]], self.vertices[self.indices[i+1]]))
-            normals.append(normal_of_face(self.vertices[self.indices[i]], self.vertices[self.indices[i+2]], self.vertices[self.indices[i+1]]))
-        self.normals = np.array(normals)  # YOUR CODE HERE to compute vertex's normal using the coordinates
+        # for i in range(0, len(self.vertices)):
+        #     normals.append(self.vertices[i])
+            # normals.append(normal_of_face(self.vertices[i], self.vertices[i + 1], self.vertices[i + 2]))
+            # normals.append(normal_of_face(self.vertices[i], self.vertices[i + 1], self.vertices[i + 2]))
+        # print(normals)
+        self.normals = np.array(normals, dtype=np.float32)  # YOUR CODE HERE to compute vertex's normal using the coordinates
 
         # colors: RGB format
         color = []

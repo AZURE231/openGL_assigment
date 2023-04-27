@@ -98,20 +98,20 @@ class TexCube(object):
 
         # Light
         I_light = np.array([
-            [0.9, 0.4, 0.6],  # diffuse
-            [0.9, 0.4, 0.6],  # specular
-            [0.9, 0.4, 0.6]  # ambient
+            [1, 1, 1],  # diffuse
+            [1, 1, 1],  # specular
+            [1, 1, 1]  # ambient
         ], dtype=np.float32)
-        light_pos = np.array([0, 0.5, 0.9], dtype=np.float32)
+        light_pos = np.array([20, 0.5, 0.9], dtype=np.float32)
 
         # Materials
         K_materials = np.array([
-            [0.5, 0.0, 0.7],  # diffuse
-            [0.5, 0.0, 0.7],  # specular
-            [0.5, 0.0, 0.7]  # ambient
+            [0.5, 0.0, 0.0],  # diffuse
+            [0.5, 0.0, 0.0],  # specular
+            [0.5, 0.0, 0.0]  # ambient
         ], dtype=np.float32)
 
-        shininess = 100.0
+        shininess = 50.0
         phong_factor = 0.0  # blending factor for phong shading and texture
 
         self.uma.upload_uniform_matrix3fv(I_light, 'I_light', False)

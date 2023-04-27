@@ -4,6 +4,8 @@ import numpy as np  # all matrix manipulations & OpenGL args
 from itertools import cycle  # cyclic iterator to easily toggle polygon rendering modes
 from tostudents.libs.transform import Trackball
 from sphere import *
+from mesh import *
+
 
 
 # ------------  Viewer class & windows management ------------------------------
@@ -109,8 +111,11 @@ def main():
     viewer = Viewer()
     # place instances of our basic objects
 
-    #model = Sphere("./gouraud.vert", "./gouraud.frag", [1, 0, 0]).setup()
-    model = Sphere("./phongex.vert", "./phongex.frag", [1, 1, 0]).setup()
+    # model = Sphere("./gouraud.vert", "./gouraud.frag", [1, 0, 0]).setup()
+    model = Sphere("./phongex.vert", "./phongex.frag", [1, 0, 0]).setup()
+
+    mesh = Mesh("./phongex.vert", "./phongex.frag").setup()
+    viewer.add(mesh)
     viewer.add(model)
 
     # start rendering loop

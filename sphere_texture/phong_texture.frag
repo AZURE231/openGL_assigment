@@ -27,12 +27,14 @@ void main() {
   float lvd = 1.0/(dot(lv, lv));
   float specAngle = max(dot(R, V), 0.0);
   float specular = pow(specAngle, shininess);
+  float lambertian = max(dot(N, L), 0.0);
   vec3 g = vec3(lvd*max(dot(L, N), 0.0), specular, 1.0);
   vec3 rgb = matrixCompMult(K_materials, I_light) * g; // +  colorInterp;
-
   fragColor = vec4(rgb, 1.0);
+
   vec4 color_interp4 = vec4(color_interp, 1.0);
   float color_factor = 0.0;
   float texture_factor = 1.0 - (color_factor + phong_factor);
-  fragColor = color_factor*color_interp4 + phong_factor*fragColor + texture_factor*texture(textureSampler, texcoord_interp);
+  fragColor = vec4(K_materials[0] * 0.5 + K_materials[1] * 1 * lambertian
+                    + K_materials[2] * specular * 0.5, 0.5) + phong_factor*fragColor + texture_factor*texture(textureSampler, texcoord_interp);
 }

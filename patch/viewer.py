@@ -75,9 +75,9 @@ def main():
     # model = Patch("./gouraud.vert", "./gouraud.frag",
     #                "./phong.vert", "./phong.frag").setup()
 
-    model = PatchEx("./phongex.vert", "./phongex.frag").setup()
+    # model = PatchEx("./phongex.vert", "./phongex.frag").setup()
 
-    # model = TexturedPatch("./textured/phong_texture.vert", "./textured/phong_texture.frag").setup()
+    model = TexturedPatch("./textured/phong_texture.vert", "./textured/phong_texture.frag").setup()
 
     viewer.add(model)
 

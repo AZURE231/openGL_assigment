@@ -182,6 +182,7 @@ class Trackball:
         self.rotation = quaternion_from_euler(yaw, roll, pitch, radians)
         self.distance = max(distance, 0.001)
         self.pos2d = vec(0.0, 0.0)
+        self.earthPos = None
 
     def drag(self, old, new, winsize):
         """ Move trackball from old to new 2d normalized windows position """
@@ -199,6 +200,50 @@ class Trackball:
     def view_matrix(self):
         """ View matrix transformation, including distance to target point """
         return translate(*self.pos2d, -self.distance) @ self.matrix()
+
+    def view_matrix_ball(self, speed, name):
+        returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix()
+        if name == "ball":
+            if speed > -0.4:
+                returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() @ translate(0, 0, speed)
+            if speed <= -0.4:
+                returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() @ translate(speed / 3.6, 0, speed) \
+                               @ rotate((0, 0, 1), 20 * speed)
+        return returnMatrix
+    def view_matrix_rotate(self, speed, moonSpeed, name):
+        returnMatrix = None
+        if name == "earth":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed * 2))
+
+        elif name == "moon":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() @ translate(moonSpeed, 0, 0) \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed)) @ translate(moonSpeed, 0, 0) \
+                           @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed)) @ translate(moonSpeed * 2, 0, 0)
+        elif name == "sun":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix()
+        elif name == "mercury":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed * 4.15))
+        elif name == "venus":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed * 1.62))
+        elif name == "mars":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed * 0.53))
+        elif name == "jupiter":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed * 0.08))
+        elif name == "saturn":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed * 0.03))
+        elif name == "uranus":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed * 0.01))
+        elif name == "neptune":
+            returnMatrix = translate(*self.pos2d, -self.distance) @ self.matrix() \
+            @ quaternion_matrix(quaternion_from_axis_angle((0, 0, 1), speed * 0.015))
+        return returnMatrix
 
     def projection_matrix(self, winsize):
         """ Projection matrix with z-clipping range adaptive to distance """
